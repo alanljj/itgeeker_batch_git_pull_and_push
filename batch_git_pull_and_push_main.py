@@ -14,8 +14,8 @@ from tkinter import ttk
 from tkinter import messagebox
 import tkinter.filedialog
 from webbrowser import open_new_tab
-
-from git import Repo
+# from pathlib import Path
+# from git import Repo
 
 
 class GitListFolder(tk.Frame):
@@ -140,32 +140,66 @@ class GitListFolder(tk.Frame):
             count_f += 1
         return count_f
 
+    # def get_remote_url(self, repo_path):
+    #     path = Path(repo_path)
+    #     remote_url = None
+    #     with open(os.path.join(path, ".git", "config"), "r") as config_file:
+    #         for line in config_file:
+    #             if line.startswith("	url = "):
+    #                 remote_url = line.split(" = ")[1]
+    #             # if line.startswith("remote "):
+    #             #     remote_name = line.split(" ")[1]
+    #             #     if remote_name == "origin":
+    #             #         remote_url = line.split(" ")[2]
+    #             #         break
+    #     print('remote_url: %s' % remote_url)
+    #     return remote_url
+
     def push_all_folders(self, f_list):
         count_f = 0
         for gf in f_list:
             print('gf: %s' % gf)
-            # subprocess.run(["git", "push"], cwd=gf)
-            # pip install gitpython
-            commit_message = 'git push from git python exe.'
             try:
-                repo = Repo(gf)
-                repo.git.add(update=True)
-                repo.index.commit(commit_message)
-                origin = repo.remote(name='origin')
-                # origin = repo.remote(name='master')
-                origin.push()
+                os.chdir(gf)
+                # commit_message = 'git push from git python exe.'
+                # subprocess.call("git --version")
+                # subprocess.call("git status")
+                subprocess.call("git add --all .")
+                subprocess.call("git commit -m \"git push from git python exe.\"")
+                subprocess.call("git push")
                 count_f += 1
             except Exception as err:
-                print('push %s\nfailed reason: %s' % (gf, err))
+                print('push %s failed\n -reason: %s' % (gf, err))
                 messagebox.showwarning(title="Error Reminder", message='Push%s\n失败原因: %s' % (gf, err))
         return count_f
+
+    # # use gitpython failed
+    # def push_all_folders(self, f_list):
+    #     count_f = 0
+    #     for gf in f_list:
+    #         print('gf: %s' % gf)
+    #         # subprocess.run(["git", "push"], cwd=gf)
+    #         # pip install gitpython
+    #         commit_message = 'git push from git python exe.'
+    #         try:
+    #             repo = Repo(gf)
+    #             repo.git.add(update=True)
+    #             repo.index.commit(commit_message)
+    #             origin = repo.remote(name='origin')
+    #             # origin = repo.remote(name='master')
+    #             origin.push()
+    #             count_f += 1
+    #         except Exception as err:
+    #             print('push %s\nfailed reason: %s' % (gf, err))
+    #             messagebox.showwarning(title="Error Reminder", message='Push%s\n失败原因: %s' % (gf, err))
+    #     return count_f
 
     def start_git_these_folders(self, git_method):
         val_list = self.get_all_item_list()
         if val_list:
             self.save_all_item_to_json(val_list)
         if not val_list:
-            messagebox.showwarning(title="Error Reminder", message="请添加要git的目录！")
+            messagebox.showwarning(title="Error Reminder", message="请添加包含.git的源码目录！")
         else:
             if git_method == 'pull_bt':
                 print('pull_bt')

@@ -18,7 +18,8 @@
 ![开源带图形界面的批量Git Pull和Git Push工具](batch_git_pull_and_push_2023-07-08_19-15-09.png "开源带图形界面的批量Git Pull和Git Push工具")
 
 #### 软件架构
-软件采用Python 3.11版本结合Tkinter UI开发，可以运行于Windows 10/11。git push采用的是gitpython工具包, windows需要安装git bash等软件才能使用。python代码也可以直接运行于Linux系统。
+软件采用Python 3.11版本结合Tkinter UI开发，可以运行于Windows 10/11. windows需要安装git bash或其他支持git命令的软件才能使用。python代码也可以直接运行于Linux系统。
+git push起初采用的是gitpython包,但碰到pyinstaller打包问题，最后改用了subprocess来执行。
 
     - Windows系统请下载发行版的exe可执行文件即可。
     - Linux理论上只要是Python 3的环境都可直接运行。
