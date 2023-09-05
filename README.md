@@ -31,7 +31,7 @@ git push起初采用的是gitpython包,但碰到pyinstaller打包问题，最后
     1.  下载可执行文件
     2.  双击文件并执行
     3.  添加想要处理的目录列表
-    5.  开始批量处理git pull或push
+    4.  开始批量处理git pull或push
 
 > Linux版本
 
